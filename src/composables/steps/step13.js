@@ -1,26 +1,23 @@
 import gsap from 'gsap'
 
 export const title = 'Callback + async'
-export const run = targets => {
+export const run = async targets => {
   console.log('step12', title)
 
-  gsap
+  await gsap
     .to(targets, {
+      duration: 1.5,
       x: 300,
       scale: 2,
       ease: 'bounce',
       stagger: 0.125,
       onComplete() {
         console.log('complete')
-        // gsap.to(targets, {
-        //   clearProps: 'all',
-        // })
       },
     })
     .then(() => {
-      console.log('resolved')
-      // gsap.to(targets, {
-      //   clearProps: 'all',
-      // })
+      console.log('resolve')
     })
+
+  console.log('async/await')
 }

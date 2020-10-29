@@ -1,7 +1,6 @@
 <template>
   <div class="base">
-    <!-- <pre>{{ route.fullPath }}</pre>
-    <pre>{{ route.params }}</pre> -->
+    <!-- Step1: DOM element -->
     <h1 class="base__title">{{ title }}</h1>
     <div class="base__ball" ref="ball"></div>
     <button @click="onClick" class="base__action">RUN</button>
@@ -26,23 +25,27 @@ import * as steps from '@/composables/steps'
 export default defineComponent({
   name: 'Base',
   setup() {
+    // Single DOM/SVG element
     const ball = ref()
+
+    // Get ID param from current route
     const route = useRoute()
-    const { id } = route.params
-    const currentStep = steps[`step${id}`]
-    const { title } = currentStep
+    const id = parseInt(route.params.id, 10) // Use it as an integer
+    const currentStep = steps[`step${id}`] // Get current step module prop/method
+    const { title, run } = currentStep
 
     const onClick = () => {
-      currentStep.run(ball.value, true)
+      run(ball.value, true)
     }
+
     // Lifecycle hooks
-    // console.log('base:setup')
+    // console.log('base:setup', ball.value) // No refs here
 
     // onBeforeMount(() => {
-    //   console.log('base:onBeforeMount')
+    //   console.log('base:onBeforeMount', ball.value) // No refs here
     // })
     // onMounted(() => {
-    //   console.log('base:onMounted')
+    //   console.log('base:onMounted', ball.value) // DOM injected === refs available!!!
     // })
     // onBeforeUpdate(() => {
     //   console.log('base:onBeforeUpdate')
@@ -57,7 +60,7 @@ export default defineComponent({
     //   console.log('base:onUnmounted')
     // })
 
-    return { id, title, ball, route, onClick }
+    return { ball, route, id, title, onClick }
   },
 })
 </script>

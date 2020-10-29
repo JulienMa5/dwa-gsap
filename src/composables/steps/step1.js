@@ -2,12 +2,13 @@ import gsap from 'gsap'
 
 export const title = 'DOM element'
 export const run = (targets, clear = false) => {
-  console.log('step1', title)
+  console.log('step1', title, clear)
 
   gsap.to(targets, {
-    duration: 1,
+    duration: 1.5, // Seconds
+    opacity: 0.5,
     x: 200,
     scale: 2,
-    clearProps: clear ? 'all' : '',
+    clearProps: 'opacity', // Reset inline styles
   })
 }

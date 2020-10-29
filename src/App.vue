@@ -1,6 +1,7 @@
 <template>
   <div class="app">
     <ChromeNav />
+    <!-- Unique key allows Vue.js to reuse/refresh the same component when the key has changed -->
     <router-view class="app__main" :key="route.fullPath" />
   </div>
 </template>

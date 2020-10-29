@@ -8,7 +8,7 @@ export const run = (targets, clear = false) => {
     duration: 1,
     x: 200,
     scale: 2,
-    ease: 'bounce', // defaults: 'ease-out'
+    ease: 'bounce.out', // Default: 'ease-out'
     clearProps: clear ? 'all' : '',
   })
 }

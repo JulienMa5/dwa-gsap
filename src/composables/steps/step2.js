@@ -5,7 +5,7 @@ export const run = (targets, clear = false) => {
   console.log('step2', title)
 
   gsap.to(targets, {
-    duration: 1,
+    duration: 10,
     x: 200,
     scale: 2,
     clearProps: clear ? 'all' : '',

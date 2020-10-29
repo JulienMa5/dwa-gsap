@@ -13,7 +13,7 @@ export const run = (targets, clear = false) => {
 
   gsap.to(targets, {
     duration: 1.5,
-    delay: 1.5, // <- delay here
+    delay: 1.5, // <- Delay here
     x: 0,
     scale: 1,
     ease: 'back.inOut(3)', // NB: back + ease-in-out + option

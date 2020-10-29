@@ -8,34 +8,13 @@ export const run = targets => {
     .timeline({
       defaults: {
         duration: 1.5,
+        x: 300,
+        scale: 2,
+        ease: 'bounce',
       },
     })
     .add('start')
-    .to(
-      targets[0],
-      {
-        x: 300,
-        scale: 2,
-        ease: 'bounce',
-      },
-      'start'
-    )
-    .to(
-      targets[1],
-      {
-        x: 300,
-        scale: 2,
-        ease: 'bounce',
-      },
-      'start+=0.25'
-    )
-    .to(
-      targets[2],
-      {
-        x: 300,
-        scale: 2,
-        ease: 'bounce',
-      },
-      'start+=0.25'
-    )
+    .to(targets[0], {}, 'start') // Time shift, from label
+    .to(targets[1], {}, 'start+=0.25') // Time shift, after label
+    .to(targets[2], {}, 'start+=0.5') // Time shift, after label
 }

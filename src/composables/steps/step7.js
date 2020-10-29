@@ -8,7 +8,7 @@ export const run = (targets, clear = false) => {
     .timeline({
       repeat: -1,
       defaults: {
-        duration: 1.5,
+        duration: 0.5,
       },
     })
     .to(targets, {

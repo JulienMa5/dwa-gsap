@@ -1,8 +1,9 @@
 <template>
   <div class="base">
-    <!-- <pre>{{ route.fullPath }}</pre> -->
-    <!-- <pre>{{ route.params }}</pre> -->
-    <h1 class="base__title">{{ title }}</h1>
+    <!-- Step9+: DOM + SVG + Multiple elements -->
+    <!-- Step14: titleRef -->
+    <h1 ref="titleRef" class="base__title">{{ title }}</h1>
+    <!-- step2 === SVG -->
     <svg
       v-if="id === 2"
       class="base__ball-outer"
@@ -11,6 +12,7 @@
     >
       <circle class="base__ball" ref="ball" cx="80" cy="80" r="80" />
     </svg>
+    <!-- step9+ === multiple refs -->
     <div v-else-if="id >= 9" class="base__ball-outer">
       <div
         v-for="i in 3"
@@ -19,6 +21,7 @@
         :ref="setBallsRef"
       ></div>
     </div>
+    <!-- default… -->
     <div v-else class="base__ball-outer">
       <div class="base__ball" ref="ball"></div>
     </div>
@@ -32,8 +35,8 @@ import {
   // Lifecycle hooks
   // onBeforeMount,
   onMounted,
-  onBeforeUpdate,
-  onUpdated,
+  // onBeforeUpdate,
+  // onUpdated,
   // onBeforeUnmount,
   // onUnmounted,
   ref,
@@ -44,38 +47,49 @@ import * as steps from '@/composables/steps'
 export default defineComponent({
   name: 'Base',
   setup() {
+    // Single DOM/SVG element
     const ball = ref()
-    let balls = []
 
+    // Array of DOM elements
+    let balls = []
+    // Used into `v-for` with `:ref`
     const setBallsRef = el => {
       balls.push(el)
     }
 
+    // Title ref
+    const titleRef = ref()
+
+    // Get ID param from current route
     const route = useRoute()
-    const id = parseInt(route.params.id, 10)
-    const currentStep = steps[`step${id}`]
-    const { title } = currentStep
+    const id = parseInt(route.params.id, 10) // Use it as an integer
+    const currentStep = steps[`step${id}`] // Get current step module prop/method
+    const { title, run, appear } = currentStep
 
     const onClick = () => {
-      const targets = id < 9 ? ball.value : balls
-      currentStep.run(targets, false)
+      const targets = id >= 9 ? balls : ball.value // Multiple vs single targets
+
+      run(targets, false)
     }
+
     // Lifecycle hooks
-    // console.log('base:setup')
+    // console.log('base:setup', ball.value, balls) // No refs here
 
     // onBeforeMount(() => {
-    //   console.log('base:onBeforeMount')
+    //   console.log('base:onBeforeMount', ball.value, balls) // No refs here
     // })
     onMounted(() => {
-      console.log('base:onMounted', balls)
+      console.log('base:onMounted', ball.value, balls) // DOM injected === refs available!!!
+      // Do some appear animation on title
+      appear && appear(titleRef.value)
     })
-    onBeforeUpdate(() => {
-      balls = []
-      console.log('base:onBeforeUpdate', balls)
-    })
-    onUpdated(() => {
-      console.log('base:onUpdated', balls)
-    })
+    // onBeforeUpdate(() => {
+    //   balls = []
+    //   console.log('base:onBeforeUpdate')
+    // })
+    // onUpdated(() => {
+    //   console.log('base:onUpdated')
+    // })
     // onBeforeUnmount(() => {
     //   console.log('base:onBeforeUnmount')
     // })
@@ -83,7 +97,7 @@ export default defineComponent({
     //   console.log('base:onUnmounted')
     // })
 
-    return { id, title, ball, setBallsRef, route, onClick }
+    return { ball, setBallsRef, titleRef, route, id, title, onClick }
   },
 })
 </script>
@@ -97,6 +111,16 @@ $d: 10vw;
 
 .base__title {
   margin-bottom: $d * 2;
+  font-weight: 900;
+  perspective: 400px;
+
+  @for $i from 1 through 5 {
+    .chars#{$i} {
+      color: lighten($c-primary, $i * 5%);
+      transform-origin: 0 50%;
+      transform: rotateY(0);
+    }
+  }
 }
 
 .base__ball-outer {

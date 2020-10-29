@@ -22,7 +22,7 @@ export const run = targets => {
         scale: 2,
         ease: 'bounce',
       },
-      '-=1'
+      '-=1' // Time shift, 1 second sooner…
     )
     .to(
       targets[2],
@@ -31,6 +31,6 @@ export const run = targets => {
         scale: 2,
         ease: 'bounce',
       },
-      '-=1'
+      '-=1' // Time shift, 1 second sooner…
     )
 }

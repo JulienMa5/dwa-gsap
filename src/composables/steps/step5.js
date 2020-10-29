@@ -12,6 +12,7 @@ export const run = (targets, clear = false) => {
       scale: 2,
       ease: 'bounce',
     })
+    // Start after the previous one
     .to(targets, {
       duration: 1.5,
       x: 0,
